@@ -4,20 +4,38 @@ export class SignUp extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: ""
+            email:      "mon@email.com",
+            password:   "monPassw0rd",
+            firstname:  "James",
+            lastname:   "Bond"
         }
-        this.updateEmailField = this.updateEmailField.bind(this);
+        this.updateField = this.updateField.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    updateEmailField(e) {
-        this.setState({email: e.target.value})
+    updateField(e) {
+        let name = e.target.name;
+        this.setState({[name]: e.target.value});
+    }
+
+    handleSubmit(e) {
+        e.preventDefault();
+        console.log(this.state);
     }
 
     render() {
+        const myState = JSON.stringify(this.state);
         return (
             <>
-                <h1>{this.state.email}</h1>
-                <input onChange={this.updateEmailField} type="email" name="email" />
+                <h1>{myState}</h1>
+                <form onSubmit={this.handleSubmit}>
+                    <input onChange={this.updateField} type="email" name="email" />
+                    <input onChange={this.updateField} type="password" name="password" />
+                    <input type="password" name="passwordcheck" />
+                    <input onChange={this.updateField} type="text" name="firstname" />
+                    <input onChange={this.updateField}type="text" name="lastname" />
+                    <input type="submit" value="Register" />
+                </form>
             </>
         )
     }
