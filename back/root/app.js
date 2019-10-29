@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const { registerAuthRoutes } = require('./auth');
 const { db } = require('../db/conf');
-const port = 3000;
+const port = 5000;
 const app = express();
 
 // Configuration of the application

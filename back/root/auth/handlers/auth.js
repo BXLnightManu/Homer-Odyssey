@@ -1,7 +1,6 @@
 const { User } = require('../../../db/models');
 
 function signUp(req, res, next) {
-    console.log(typeof req.body.firstname);
     if(!req.body.email || !req.body.password || !req.body.firstname || !req.body.lastname || Object.keys(req.body).length < 4) {
         res.json({
             ok: false,
@@ -27,11 +26,11 @@ function signUp(req, res, next) {
     const user = new User({email, password, firstname, lastname});
     user
         .save()
-        .then(user => {
-            res.json({ ok: true, payload: user });
+        .then(() => {
+            res.status(200).json({ ok: true, flash: "User has been signed up!" });
         })
         .catch(err => {
-            res.json({ok: false, payload: err.message || "REGISTRATION FAILED" });
+            res.status(500).json({ok: false, flash: err.message || "REGISTRATION FAILED" });
         })
 };
 
