@@ -1,22 +1,16 @@
-.App {
-  text-align: center;
+html,body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  height: 100%;
+  width: 100%;
 }
-
-.App-logo {
-  height: 40vmin;
+#root {
+  min-height: 100%;
+  background-color: rgb(252,181,113);
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #09d3ac;
+@media  screen  and (min-width: 640px) {
+  #root {
+          height: 100%;
+  }
 }
