@@ -14,3 +14,17 @@ html,body {
           height: 100%;
   }
 }
+
+#form {
+  margin: 2%
+}
+
+#button {
+  float: right;
+  margin-right: 5%;
+}
+
+#link {
+  text-decoration: none;
+  color: inherit;
+}

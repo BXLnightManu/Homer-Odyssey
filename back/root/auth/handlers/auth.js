@@ -24,15 +24,15 @@ function signUp(req, res, next) {
     user
         .save()
         .then(user => {
-            res.status(200).json({open: true, variant: "success", flash: `${user.firstname} ${user.lastname} has been signed up!`});
+            res.status(200).json({redirect: true, open: true, flash: `${user.firstname} ${user.lastname} has been signed up!`});
         })
         .catch(err => {
-            res.status(500).json({open: true, variant: "error", flash: err.message || "REGISTRATION FAILED" });
+            res.status(500).json({redirect: false, open: true, flash: err.message || "REGISTRATION FAILED" });
         })
 };
 
 function signIn(req, res, next) {
-    res.send('I am in POST signin');
+    res.status(200).json({redirect: true});
 };
 
 module.exports = {

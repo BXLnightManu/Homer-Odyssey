@@ -4,7 +4,7 @@ const signInRouter = express.Router();
 const { auth } = require('./handlers')
 
 signUpRouter.post('/signup', auth.signUp);
-signInRouter.get('/signin', auth.signIn);
+signInRouter.post('/signin', auth.signIn);
 
 module.exports = {
     signUpRouter,
