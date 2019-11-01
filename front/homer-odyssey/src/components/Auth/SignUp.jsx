@@ -37,6 +37,9 @@ export class SignUp extends Component {
                 res => this.setState({flash: res.flash, open: res.open, redirect: res.redirect}),
                 err => this.setState({flash: err.flash, open: err.open, redirect: err.redirect})
             )
+            .catch(err => {
+                console.error(err);
+            })
     }
 
     render() {

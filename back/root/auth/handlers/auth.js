@@ -1,4 +1,9 @@
+const passport = require('passport');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const saltRounds = 10;
 const { User } = require('../../../db/models');
+const mySecret = "The village of Konoha";
 
 function signUp(req, res, next) {
     if(!req.body.email || !req.body.password || !req.body.firstname || !req.body.lastname || Object.keys(req.body).length < 4) {
@@ -19,20 +24,30 @@ function signUp(req, res, next) {
         });
         return;
     }
-    const { email, password, firstname, lastname } = req.body;
-    const user = new User({email, password, firstname, lastname});
-    user
-        .save()
-        .then(user => {
-            res.status(200).json({redirect: true, open: true, flash: `${user.firstname} ${user.lastname} has been signed up!`});
-        })
-        .catch(err => {
-            res.status(500).json({redirect: false, open: true, flash: err.message || "REGISTRATION FAILED" });
-        })
+    const { password } = req.body;
+    bcrypt
+        .hash(password, saltRounds)
+        .then(hash => {
+            const { email, firstname, lastname } = req.body;
+            const user = new User({email, password: hash, firstname, lastname});
+            user
+                .save()
+                .then(user => {
+                    res.status(200).json({redirect: true, open: false, flash: `${user.firstname} ${user.lastname} has been signed up!`});
+                })
+                .catch(err => {
+                    res.status(500).json({redirect: false, open: true, flash: err.message || "REGISTRATION FAILED" });
+                })
+    });
 };
 
 function signIn(req, res, next) {
-    res.status(200).json({redirect: true});
+    passport.authenticate('local',(err, user, info) => {
+        if(err) return res.status(500).send(err.message)
+        if (!user) return res.status(400).json({flash: info.message, open: true, redirect: false});
+        const token = jwt.sign(user.toJSON(), mySecret);
+        return res.json({user, open: false, redirect: true, token});
+    })(req, res)
 };
 
 module.exports = {

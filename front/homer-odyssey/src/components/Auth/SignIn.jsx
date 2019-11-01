@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import { TextField, Button } from '@material-ui/core';
+import { TextField, Button, Snackbar } from '@material-ui/core';
 
 export class SignIn extends Component {
     constructor(props) {
@@ -8,10 +8,13 @@ export class SignIn extends Component {
         this.state = {
             email:      "",
             password:   "",
+            flash:"",
+            open: false,
             redirect: false
         }
         this.updateField = this.updateField.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleClose = this.handleClose.bind(this);
     }
 
     updateField(e) {
@@ -30,11 +33,22 @@ export class SignIn extends Component {
         fetch(path, CONFIG)
             .then(res => res.json())
             .then(
-                (res) => this.setState({redirect: res.redirect})
+                (res) => this.setState({redirect: res.redirect, open: res.open, flash: res.flash})
             )
+            .catch(err => {
+                console.error(err);
+            })
     }
 
+    handleClose (reason) {
+        if (reason === 'clickaway') {
+          return;
+        }
+        this.setState({open:false});
+      };
+
     render() {
+        const myState = JSON.stringify(this.state.flash);
         const { redirect } = this.state;
         if(redirect) {
             return <Redirect to="/profile" />
@@ -65,6 +79,16 @@ export class SignIn extends Component {
                             margin="normal"
                         />
                         <Button variant="contained" color="primary" type="submit">Submit</Button>
+                        <Snackbar
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'center',
+                        }}
+                        autoHideDuration={5000}
+                        onClose={this.handleClose}
+                        open={this.state.open}
+                        message={myState}
+                    />
                     </form>
                 </>
             )
