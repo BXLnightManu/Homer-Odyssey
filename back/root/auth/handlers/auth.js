@@ -45,8 +45,8 @@ function signIn(req, res, next) {
     passport.authenticate('local',(err, user, info) => {
         if(err) return res.status(500).send(err.message)
         if (!user) return res.status(400).json({flash: info.message, open: true, redirect: false});
-        const token = jwt.sign(user.toJSON(), mySecret);
-        return res.json({user, open: false, redirect: true, token});
+        const token = jwt.sign(user, mySecret);
+        return res.json({user, token, flash: "User sign in!", open: true, redirect: true});
     })(req, res)
 };
 

@@ -28,3 +28,8 @@ html,body {
   text-decoration: none;
   color: inherit;
 }
+
+img {
+  height: 100%;
+  width: 100%;
+}

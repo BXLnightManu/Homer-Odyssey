@@ -1,7 +1,11 @@
 import React from 'react';
 import { Grid, Paper, makeStyles } from '@material-ui/core';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
-import { Profile, SignIn, SignUp } from './components/Auth';
+import { SignUp } from './containers/Auth';
+import SignIn from './containers/Auth/SignIn';
+import Profile from './containers/Auth/Profile';
+import requiredAuth from './hoc/requireAuth';
+import requireNotAuth from './hoc/requireNotAuth';
 import './App.css';
 
 const useStyles = makeStyles({
@@ -23,21 +27,14 @@ export default function App() {
   return (
     <Grid container item xs={12} className={classes.root}>
         <Paper elevation={4} className={classes.paper}>
-            <Grid container item xs={12} className={classes.grid}>
-              <Grid  item  xs={12}  sm={6}>
-                <img  src="http://images.innoveduc.fr/react_odyssey_homer/wildhomer.png" alt="homer-simpson" />
-              </Grid>
-              <Grid item  xs={12}  sm={6}>
                 <Router>
                   <Switch>
-                    <Route exact path="/" component={SignIn} />
-                    <Route path="/signin" component={SignIn} />
-                    <Route path="/signup" component={SignUp} />
-                    <Route path="/profile" component={Profile} />
+                    <Route exact path="/" component={requireNotAuth(SignIn)} />
+                    <Route exact path="/signin" component={requireNotAuth(SignIn)} />
+                    <Route exact path="/signup" component={requireNotAuth(SignUp)} />
+                    <Route exact path="/profile" component={requiredAuth(Profile)} />
                   </Switch>
                 </Router>
-              </Grid>
-            </Grid>
         </Paper>
     </Grid>
   );
