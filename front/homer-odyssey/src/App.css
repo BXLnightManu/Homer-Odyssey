@@ -21,7 +21,7 @@ html,body {
 
 #button {
   float: right;
-  margin-right: 5%;
+  margin: 1%;
 }
 
 #link {
@@ -32,4 +32,8 @@ html,body {
 img {
   height: 100%;
   width: 100%;
+}
+
+h1 {
+  margin: 1%;
 }

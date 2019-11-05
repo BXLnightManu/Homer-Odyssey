@@ -1,21 +1,17 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { TextField, Button, Snackbar } from '@material-ui/core';
+import { TextField, Button } from '@material-ui/core';
 
 class SignIn extends Component {
     constructor(props) {
         super(props);
         this.state = {
             email:      "",
-            password:   "",
-            flash:"",
-            redirect: false,
-            open: false
+            password:   ""
         }
         this.updateField = this.updateField.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleClose = this.handleClose.bind(this);
     }
 
     updateField(e) {
@@ -35,7 +31,6 @@ class SignIn extends Component {
             .then(res => res.json())
             .then(
                 (res) => {
-                    this.setState({ open: res.open, user: res.user, token: res.token, flash: res.flash });
                     this.props.dispatch(
                         {
                             type : "CREATE_SESSION",
@@ -44,20 +39,13 @@ class SignIn extends Component {
                             message : res.flash
                         }
                     )
-                    this.props.history.push("/profile");
+                    res.redirect && this.props.history.push("/profile");
                 }
             )
             .catch(err => {
                 console.error(err);
             })
     }
-
-    handleClose (reason) {
-        if (reason === 'clickaway') {
-          return;
-        }
-        this.setState({open:false});
-    };
 
     render() {
         return (
@@ -86,16 +74,6 @@ class SignIn extends Component {
                         margin="normal"
                     />
                     <Button variant="contained" color="primary" type="submit">Submit</Button>
-                    <Snackbar
-                    anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'center',
-                    }}
-                    autoHideDuration={5000}
-                    onClose={this.handleClose}
-                    open={this.state.open}
-                    message={this.props.flash}
-                />
                 </form>
             </>
         )

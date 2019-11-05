@@ -4,6 +4,7 @@ import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import { SignUp } from './containers/Auth';
 import SignIn from './containers/Auth/SignIn';
 import Profile from './containers/Auth/Profile';
+import PopUp from './containers/popUp/PopUp'
 import requiredAuth from './hoc/requireAuth';
 import requireNotAuth from './hoc/requireNotAuth';
 import './App.css';
@@ -35,6 +36,7 @@ export default function App() {
                     <Route exact path="/profile" component={requiredAuth(Profile)} />
                   </Switch>
                 </Router>
+                <PopUp />
         </Paper>
     </Grid>
   );
